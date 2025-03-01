@@ -7,11 +7,13 @@ public class LibretaDeNotas {
     private HashMap<String, ArrayList<Double>> calificaciones;
 
     // Variable para almacenar el promedio general del curso
-    private double promedioCurso;
+    private static double promedioCurso;
+    private static Scanner scanner;// Scanner como atributo de la clase
 
     // Constructor de la clase
     public LibretaDeNotas() {
         calificaciones = new HashMap<>(); // Inicializa el HashMap
+        scanner = new Scanner(System.in); //Inicializa el scanner aquí
     }
 
     // Metodo para ingresar los datos de los estudiantes y sus notas
@@ -131,21 +133,31 @@ public class LibretaDeNotas {
         Scanner scanner = new Scanner(System.in); // Scanner para leer la entrada del usuario
 
         // Solicitar el nombre del estudiante
-        System.out.print("Ingrese el nombre del estudiante: ");
+        System.out.print("Ingrese el nombre del estudiante: \n");
         String nombre = scanner.next();
 
         // Verificar si el estudiante existe en el HashMap
         if (calificaciones.containsKey(nombre)) {
-            // Solicitar la nota a verificar
-            System.out.print("Ingrese la nota a verificar: ");
-            double nota = scanner.nextDouble();
+            // Si existe el estudiante en el HashMap
+            ArrayList<Double> notas = calificaciones.get(nombre);
+            System.out.println("Notas aprobatorias y reprobatorias de: " + nombre);
+            int i= 1;
+            for(Double nota : notas) {
+                System.out.print("Nota N°" + i + ": " + nota + " ");
+                if (nota >= 6){
+                    System.out.print("Aprobada");
 
-            // Verificar si la nota es aprobatoria (nota >= 6) o reprobatoria
-            if (nota >= 6) {
-                System.out.println("La nota es aprobatoria.");
-            } else {
-                System.out.println("La nota es reprobatoria.");
+
+                }else {
+                    System.out.print("Reprobada");
+                }
+                System.out.print("\n");
+                i++;
             }
+            System.out.print("\n");
+
+
+
         } else {
             System.out.println("Estudiante no encontrado."); // Si el estudiante no existe
         }
@@ -161,18 +173,26 @@ public class LibretaDeNotas {
 
         // Verificar si el estudiante existe en el HashMap
         if (calificaciones.containsKey(nombre)) {
-            // Solicitar la nota a verificar
-            System.out.print("Ingrese la nota a verificar: ");
-            double nota = scanner.nextDouble();
+            // Si existe el estudiante en el HashMap
+            ArrayList<Double> notas = calificaciones.get(nombre);
+            System.out.println( nombre + "\nNotas abajo y arriba del promedio ");
+            int i= 1;
+            for(Double nota : notas) {
+                System.out.print("Nota N°" + i + ": " + nota + " ");
+                if (nota > promedioCurso){
+                    System.out.print("> " + promedioCurso);
 
-            // Comparar la nota con el promedio del curso
-            if (nota > promedioCurso) {
-                System.out.println("La nota está por sobre el promedio del curso.");
-            } else if (nota < promedioCurso) {
-                System.out.println("La nota está por debajo del promedio del curso.");
-            } else {
-                System.out.println("La nota es igual al promedio del curso.");
+                }else if (nota < promedioCurso){
+                    System.out.print("< " + promedioCurso);
+                }else {
+                    System.out.print("= " + promedioCurso);
+                }
+                System.out.print("\n");
+                i++;
             }
+            System.out.print("\n");
+
+
         } else {
             System.out.println("Estudiante no encontrado."); // Si el estudiante no existe
         }
@@ -183,5 +203,8 @@ public class LibretaDeNotas {
         LibretaDeNotas libreta = new LibretaDeNotas(); // Crear una instancia de la clase
         libreta.ingresarDatos(); // Llamar al metodo para ingresar datos
         libreta.mostrarMenu();   // Llamar al metodo para mostrar el menú
+        scanner.close();
+
     }
 }
+
